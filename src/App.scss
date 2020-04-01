@@ -1,0 +1,14 @@
+.App {
+  /* padding: 20px; */
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: rgb(255,127,80); 
+  background: rgba(16, 103, 136, 1.0);
+  font-family: 'Sen', sans-serif;
+  background: -webkit-linear-gradient(top right, rgba(16, 103, 136, 1.0), rgba(22, 251, 226, 1.0));
+  background: -moz-linear-gradient(top right, rgba(16, 103, 136, 1.0), rgba(22, 251, 226, 1.0));
+  background: linear-gradient(to bottom left, rgba(16, 103, 136, 1.0), rgba(22, 251, 226, 1.0));
+}
+

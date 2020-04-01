@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './JokeList.css';
+import './JokeList.scss';
 import Joke from './Joke';
+import {v4 as uuid} from 'uuid';
+import FacePalm from './images/face-palm.png';
 
 class JokeList extends Component {
   static defaultProps = {
@@ -21,32 +23,30 @@ class JokeList extends Component {
         headers : {Accept: 'application/json'}
       })
       let joke = response.data.joke;
-      jokes.push({joke: joke, rating: 0})
+      jokes.push({joke: joke, votes: 0, id:uuid()})
     } 
     this.setState({jokes: jokes})
   }
 
-  // jokeUpVote(index){
-  //   let currentJokes = this.state.jokes
-  //   let newRating = (currentJokes.jokes[index].rating)+1;
+  handleVote(index, delta){
+    this.setState(oldState => ({
+      jokes: oldState.jokes.map(joke => 
+        joke.id === index ? {...joke, votes: joke.votes + delta} : joke
+      )
+    }))
+  }
 
-  //   let newJokes = 
-
-  //   this.setState({
-  //     jokes: ...jokes})
-  // }
-
-  // jokeDownVote(index){
-
-  // }
 
   render(){
     let jokeList = this.state.jokes.map(joke => {
       return (
-        <div className='Joke'>
+        <div className='Joke' key={joke.id}>
           <Joke
             jokeText={joke.joke}
-            jokeRating={joke.rating}
+            jokeId={joke.id}
+            jokeVotes={joke.votes}
+            voteUp={() => this.handleVote(joke.id, 1)}
+            voteDown={() => this.handleVote(joke.id, -1)}
           />
        </div>
       )
@@ -54,11 +54,14 @@ class JokeList extends Component {
     
     return(
       <div className='JokeList'>
-        <h1>JokeList</h1>
+        <div className='JokeList-sidebar'>
+          <h1>Dad Jokes</h1>
+          <img src={FacePalm} alt='older man face-palming'/>
+          <button className='JokeList-getMore'>New Jokes</button>
+        </div>
         <div className='JokeList-jokes'>
           {jokeList}
         </div>
-
       </div>
     )
   }

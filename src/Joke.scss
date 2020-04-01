@@ -1,0 +1,13 @@
+.Joke {
+  .voteUp, .voteDown {
+    margin: 0 5px;
+    color:red;
+    user-select: none;
+  }
+  .votes {
+    user-select: none;
+    font-family: 'Abel', sans-serif;
+    font-weight: 400;
+    font-size: large;
+  }
+}
