@@ -76,6 +76,7 @@ class JokeList extends Component {
 
   render(){
     let jokeListSorted = this.state.jokes.sort((a,b) => b.votes - a.votes)
+    // Sorts list based on votes
     if (this.state.loading){
       return (
         <div className='loading'>
