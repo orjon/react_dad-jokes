@@ -12,11 +12,19 @@ class JokeList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      jokes: [],
+      jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]')
+      // Set this.state.jokes to localStorage('jokes') if not empty
     }
   }
 
-  async componentDidMount(){
+  componentDidMount(){
+    // Get jokes if jokes array is empty.
+    if (this.state.jokes.length === 0){
+      this.getJokes()
+    } 
+  }
+
+  async getJokes(){
     let jokes = [];
     while (jokes.length < this.props.numJokesToGet) {
       let response = await axios.get('https://icanhazdadjoke.com/', {
@@ -26,6 +34,8 @@ class JokeList extends Component {
       jokes.push({joke: joke, votes: 0, id:uuid()})
     } 
     this.setState({jokes: jokes})
+    window.localStorage.setItem('jokes', JSON.stringify(jokes)); 
+    //stringify this.state.jokes and save to localStorage('jokes')
   }
 
   handleVote(index, delta){

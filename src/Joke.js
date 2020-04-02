@@ -4,57 +4,33 @@ import './Joke.scss';
 
 class Joke extends Component {
 
-  borderColor(){
+  voteColorEmoji(){
     if (this.props.jokeVotes >= 15) {
-      return '#4CAF50'
+      return {color:'#4CAF50', face:'em em-rolling_on_the_floor_laughing'}
     } else if (this.props.jokeVotes >= 12) {
-      return '#8BC34A'
+      return {color: '#8BC34A', face: 'em em-laughing'}
     } else if (this.props.jokeVotes >= 9) {
-      return '#CDDC39'
+      return {color: '#CDDC39', face:'em em-smiley'}
     } else if (this.props.jokeVotes >= 6) {
-      return '#FFEB3B'
+      return {color: '#FFEB3B', face: 'em em-slightly_smiling_face'}
     } else if (this.props.jokeVotes >= 3) {
-      return '#FFC107'
+      return {color: '#FFC107', face: 'em em-neutral_face'}
     } else if (this.props.jokeVotes >= 0) {
-      return '#FF9800'
+      return {color: '#FF9800', face:'em em-confused'}
     } else {
-      return '#F44336'
+      return {color: '#F44336', face:'em em-angry'}
     }
   }
-  
-  emojiFace(){
-    if (this.props.jokeVotes >= 15) {
-      return 'em em-rolling_on_the_floor_laughing'
-    } else if (this.props.jokeVotes >= 12) {
-      return 'em em-laughing'
-    } else if (this.props.jokeVotes >= 9) {
-      return 'em em-smiley'
-    } else if (this.props.jokeVotes >= 6) {
-      return 'em em-slightly_smiling_face'
-    } else if (this.props.jokeVotes >= 3) {
-      return 'em em-neutral_face'
-    } else if (this.props.jokeVotes >= 0) {
-      return 'em em-confused'
-    } else {
-      return 'em em-angry'
-    }
-  }
-  // 'em em-rolling_on_the_floor_laughing';
-  // 'em em-laughing';
-  // 'em em-smiley';
-  // 'em em-slightly_smiling_face';
-  // 'em em-neutral_face';
-  // 'em em-confused';
-  // 'em em-angry';
 
   render(){
+    let voteValues = this.voteColorEmoji();
     return(
       <div className='Joke'>
         <div className='Joke-votes'>
           <div onClick={this.props.voteUp} className='vote up'>
             <p>↑</p>
           </div>
-          <div className='votes' style={{borderColor: this.borderColor()}}>
+          <div className='votes' style={{borderColor: voteValues.color}}>
             <p>{this.props.jokeVotes}</p>
           </div>
           <div onClick={this.props.voteDown} className='vote down'>
@@ -65,7 +41,7 @@ class Joke extends Component {
           {this.props.jokeText}
         </div>
         <div className='Joke-emoji'>
-        <i className={this.emojiFace()} aria-label='BIRD'></i>
+        <i className={voteValues.face} aria-label='BIRD'></i>
         </div>
       </div>
     )
