@@ -17,6 +17,8 @@ class JokeList extends Component {
       // *Can clear localStorage with: window.localStorage.clear() OR window.localStorage.clear('jokes') 
       loading: false //varible for loading animation
     }
+    this.seenJokes = new Set(this.state.jokes.map(joke => joke.joke))
+    //new Set with text from existing jokes. Set used as it's more effiecient for duplicate checking
     this.moreJokes = this.moreJokes.bind(this)
   }
 
@@ -28,19 +30,33 @@ class JokeList extends Component {
   }
 
   async getJokes(){
-    let newJokes = []
-    while (newJokes.length < this.props.numJokesToGet) {
-      let response = await axios.get('https://icanhazdadjoke.com/', {
-        headers : {Accept: 'application/json'}
-      })
-      let joke = response.data.joke;
-      newJokes.push({joke: joke, votes: 0, id:uuid()})
-    } 
-    this.setState(oldState => ({
-      jokes: [...oldState.jokes, ...newJokes],
-      loading: false
-    }),
-    () => window.localStorage.setItem('jokes', JSON.stringify(this.state.jokes)))
+    try {
+      let newJokes = []
+      while (newJokes.length < this.props.numJokesToGet) {
+        let response = await axios.get('https://icanhazdadjoke.com/', {
+          headers : {Accept: 'application/json'}
+        })
+        let newJoke = response.data.joke;
+        if (!this.seenJokes.has(newJoke)) {
+          // Checks to see if joke is in set of existing jokes.
+          newJokes.push({joke: newJoke, votes: 0, id:uuid()})
+        } else {
+          console.log('found duplicate:')
+          console.log(newJoke)
+        }
+        
+      } 
+      this.setState(oldState => ({
+        jokes: [...oldState.jokes, ...newJokes],
+        loading: false
+        }),
+       () => window.localStorage.setItem('jokes', JSON.stringify(this.state.jokes))
+      )
+    } catch(error) {
+      alert(error)
+      this.setState({loading:false})
+    }
+
   }
 
   moreJokes(){
