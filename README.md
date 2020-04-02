@@ -6,7 +6,7 @@ This application loads dad-jokes from https://icanhazdadjoke.com/. Jokes are dis
 There is a button to get more jokes form the API and add them to the list. Jokes are stored locally in localStorage.
 
 ### Main screen view showing different voting states:
-![Screen shot](/screenshots/screenshot-voting.png)
+![Screen shot](/screenshots/screenshot-voting.jpg)
 
 ### Loading screen - shown when fetching more jokes:
-![Screen shot](/screenshots/screenshot-loading.png)
+![Screen shot](/screenshots/screenshot-loading.jpg)
