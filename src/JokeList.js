@@ -3,7 +3,7 @@ import axios from 'axios';
 import './JokeList.scss';
 import Joke from './Joke';
 import {v4 as uuid} from 'uuid';
-import FacePalm from './images/face-palm.png';
+import FacePalm from './images/face-palm-cropped.png';
 
 class JokeList extends Component {
   static defaultProps = {
@@ -37,7 +37,8 @@ class JokeList extends Component {
       newJokes.push({joke: joke, votes: 0, id:uuid()})
     } 
     this.setState(oldState => ({
-      jokes: [...oldState.jokes, ...newJokes]
+      jokes: [...oldState.jokes, ...newJokes],
+      loading: false
     }),
     () => window.localStorage.setItem('jokes', JSON.stringify(this.state.jokes)))
   }
@@ -58,32 +59,41 @@ class JokeList extends Component {
 
 
   render(){
-    let jokeList = this.state.jokes.map(joke => {
+
+    if (this.state.loading){
       return (
-        <div key={joke.id}>
-          <Joke
-            jokeText={joke.joke}
-            jokeId={joke.id}
-            jokeVotes={joke.votes}
-            voteUp={() => this.handleVote(joke.id, 1)}
-            voteDown={() => this.handleVote(joke.id, -1)}
-          />
-       </div>
+        <div className='loading'>
+          <h1>loading more hilarious jokes...</h1>
+        </div>
       )
-    })
-    
-    return(
-      <div className='JokeList'>
-        <div className='JokeList-sidebar'>
-          <h1>Dad Jokes</h1>
-          <img src={FacePalm} alt='older man face-palming'/>
-          <button onClick={this.moreJokes} className='JokeList-getMore'>More jokes please daddy!</button>
+    } else {
+      let jokeList = this.state.jokes.map(joke => {
+        return (
+          <div key={joke.id}>
+            <Joke
+              jokeText={joke.joke}
+              jokeId={joke.id}
+              jokeVotes={joke.votes}
+              voteUp={() => this.handleVote(joke.id, 1)}
+              voteDown={() => this.handleVote(joke.id, -1)}
+            />
+         </div>
+        )
+      })
+      
+      return(   
+        <div className='JokeList'>
+          <div className='JokeList-sidebar'>
+            <h1>Dad Jokes</h1>
+            <img src={FacePalm} alt='older man face-palming'/>
+            <button onClick={this.moreJokes} className='JokeList-getMore'>More jokes please daddy!</button>
+          </div>
+          <div className='JokeList-jokes'>
+            {jokeList}
+          </div>
         </div>
-        <div className='JokeList-jokes'>
-          {jokeList}
-        </div>
-      </div>
-    )
+      )
+    }
   }
 }
 export default JokeList
