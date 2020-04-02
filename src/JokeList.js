@@ -75,7 +75,7 @@ class JokeList extends Component {
 
 
   render(){
-
+    let jokeListSorted = this.state.jokes.sort((a,b) => b.votes - a.votes)
     if (this.state.loading){
       return (
         <div className='loading'>
@@ -83,7 +83,7 @@ class JokeList extends Component {
         </div>
       )
     } else {
-      let jokeList = this.state.jokes.map(joke => {
+      let jokeList = jokeListSorted.map(joke => {
         return (
           <div key={joke.id}>
             <Joke
