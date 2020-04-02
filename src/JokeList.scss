@@ -7,7 +7,7 @@
 }
 
 .JokeList-sidebar {
-  background: rgb(22, 251, 226);
+  background-color: rgb(22, 251, 226);
   // border: 1px solid red;
   display: flex;
   flex-direction: column;
@@ -24,6 +24,19 @@
   img {
     bottom: 0px;
     width: 80%;
+  }
+  button {
+    background-color: rgb(20, 164, 207);
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    border: 0;
+    margin-top: 20px;
+    border-radius: 10px;
+    outline: none;
+    &:hover {
+      background-color: rgb(23, 185, 235);
+    }
   }
 }
 

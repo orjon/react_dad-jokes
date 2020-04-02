@@ -12,9 +12,12 @@ class JokeList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]')
+      jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]'),
       // Set this.state.jokes to localStorage('jokes') if not empty
+      // *Can clear localStorage with: window.localStorage.clear() OR window.localStorage.clear('jokes') 
+      loading: false //varible for loading animation
     }
+    this.moreJokes = this.moreJokes.bind(this)
   }
 
   componentDidMount(){
@@ -25,17 +28,23 @@ class JokeList extends Component {
   }
 
   async getJokes(){
-    let jokes = [];
-    while (jokes.length < this.props.numJokesToGet) {
+    let newJokes = []
+    while (newJokes.length < this.props.numJokesToGet) {
       let response = await axios.get('https://icanhazdadjoke.com/', {
         headers : {Accept: 'application/json'}
       })
       let joke = response.data.joke;
-      jokes.push({joke: joke, votes: 0, id:uuid()})
+      newJokes.push({joke: joke, votes: 0, id:uuid()})
     } 
-    this.setState({jokes: jokes})
-    window.localStorage.setItem('jokes', JSON.stringify(jokes)); 
-    //stringify this.state.jokes and save to localStorage('jokes')
+    this.setState(oldState => ({
+      jokes: [...oldState.jokes, ...newJokes]
+    }),
+    () => window.localStorage.setItem('jokes', JSON.stringify(this.state.jokes)))
+  }
+
+  moreJokes(){
+    this.setState({loading:true}, this.getJokes)
+    //this.getJokes is a call-back to insure it is only run once state has been set.
   }
 
   handleVote(index, delta){
@@ -43,7 +52,8 @@ class JokeList extends Component {
       jokes: oldState.jokes.map(joke => 
         joke.id === index ? {...joke, votes: joke.votes + delta} : joke
       )
-    }))
+    }),
+    () => window.localStorage.setItem('jokes', JSON.stringify(this.state.jokes)))
   }
 
 
@@ -67,7 +77,7 @@ class JokeList extends Component {
         <div className='JokeList-sidebar'>
           <h1>Dad Jokes</h1>
           <img src={FacePalm} alt='older man face-palming'/>
-          {/* <button className='JokeList-getMore'>New Jokes</button> */}
+          <button onClick={this.moreJokes} className='JokeList-getMore'>More jokes please daddy!</button>
         </div>
         <div className='JokeList-jokes'>
           {jokeList}
