@@ -40,7 +40,7 @@ class JokeList extends Component {
   render(){
     let jokeList = this.state.jokes.map(joke => {
       return (
-        <div className='Joke' key={joke.id}>
+        <div key={joke.id}>
           <Joke
             jokeText={joke.joke}
             jokeId={joke.id}
@@ -57,7 +57,7 @@ class JokeList extends Component {
         <div className='JokeList-sidebar'>
           <h1>Dad Jokes</h1>
           <img src={FacePalm} alt='older man face-palming'/>
-          <button className='JokeList-getMore'>New Jokes</button>
+          {/* <button className='JokeList-getMore'>New Jokes</button> */}
         </div>
         <div className='JokeList-jokes'>
           {jokeList}

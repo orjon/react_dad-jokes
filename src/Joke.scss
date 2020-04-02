@@ -1,13 +1,68 @@
 .Joke {
-  .voteUp, .voteDown {
-    margin: 0 5px;
-    color:red;
-    user-select: none;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid lightgrey;
+  padding: 10px 0;
+
+
+  .Joke-votes {
+    display: flex;
+    align-items: center;
+
+    .vote {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-align: center;
+      width: 25px;
+      height: 25px;
+      user-select: none;
+      user-select: none;
+      margin: 3px;
+      color: white;
+      
+      &.up{
+        box-shadow: 0 0 10px 0px rgba(0, 175, 0,0.5);
+        background-color: rgba(0, 175, 0, 0.65);
+        &:hover {background-color: rgb(0, 175, 0);}
+      }
+      &.down{
+        box-shadow: 0 0 10px 0px rgba(255, 0, 0,0.5);
+        background-color: rgba(255, 0, 0,0.65);
+        &:hover{background-color: rgb(255, 64, 64);}
+      }
+    }
+    .votes {
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 5px solid white;
+      text-align: center;
+      width: 45px;
+      height: 45px;
+      user-select: none;
+      font-family: 'Abel', sans-serif;
+      font-weight: 400;
+      font-size: large;
+      box-shadow: 0 0 10px 0px rgba(0,0,0,0.5);
+    }
   }
-  .votes {
-    user-select: none;
-    font-family: 'Abel', sans-serif;
-    font-weight: 400;
-    font-size: large;
+
+  .Joke-text {
+    margin: 0 10px;
+    
   }
+  .Joke-emoji {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    i {
+      font-size: 2rem;
+    }
+    // border: 1px solid orange;
+  }
+
 }
